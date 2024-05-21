@@ -1,0 +1,97 @@
+{
+  "project_info": {
+    "project_number": "563484330976",
+    "project_id": "product-vualizing",
+    "storage_bucket": "product-vualizing.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563484330976:android:db32b1650cefe587093985",
+        "android_client_info": {
+          "package_name": "com.abdrabo60.productvisualizer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "563484330976-471lvlaa3ib1oiek2tai08c8taropmce.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1p6eF46zvB0ZbOZkNWsOrXGgFuH0WZ5I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "563484330976-471lvlaa3ib1oiek2tai08c8taropmce.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563484330976:android:685004efdbfeaf02093985",
+        "android_client_info": {
+          "package_name": "com.abdrabo60.productvisualizer2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "563484330976-471lvlaa3ib1oiek2tai08c8taropmce.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1p6eF46zvB0ZbOZkNWsOrXGgFuH0WZ5I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "563484330976-471lvlaa3ib1oiek2tai08c8taropmce.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563484330976:android:5313a137272f5ae8093985",
+        "android_client_info": {
+          "package_name": "com.example.productvisualizer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "563484330976-471lvlaa3ib1oiek2tai08c8taropmce.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1p6eF46zvB0ZbOZkNWsOrXGgFuH0WZ5I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "563484330976-471lvlaa3ib1oiek2tai08c8taropmce.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
