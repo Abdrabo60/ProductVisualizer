@@ -2,14 +2,16 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.kotlin.serialization)
+
 }
 
 android {
-    namespace = "com.example.productvisualizer"
+    namespace = "com.abdrabo60.productvisualizer"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.productvisualizer"
+        applicationId = "com.abdrabo60.productvisualizer"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -68,4 +70,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(libs.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
 }

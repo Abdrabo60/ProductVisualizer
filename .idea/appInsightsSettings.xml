@@ -8,8 +8,8 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.example.productvisualizer" />
-                  <option name="mobileSdkAppId" value="1:563484330976:android:5313a137272f5ae8093985" />
+                  <option name="appId" value="com.abdrabo60.productvisualizer" />
+                  <option name="mobileSdkAppId" value="1:563484330976:android:db32b1650cefe587093985" />
                   <option name="projectId" value="product-vualizing" />
                   <option name="projectNumber" value="563484330976" />
                 </ConnectionSetting>

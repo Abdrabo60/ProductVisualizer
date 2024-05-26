@@ -1,4 +1,4 @@
-package com.example.productvisualizer
+package com.abdrabo60.productvisualizer
 
 import org.junit.Test
 

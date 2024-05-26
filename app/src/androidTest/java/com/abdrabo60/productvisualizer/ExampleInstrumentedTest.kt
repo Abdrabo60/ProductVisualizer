@@ -1,4 +1,4 @@
-package com.example.productvisualizer
+package com.abdrabo60.productvisualizer
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

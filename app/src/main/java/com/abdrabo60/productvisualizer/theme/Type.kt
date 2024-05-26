@@ -1,4 +1,4 @@
-package com.example.productvisualizer.ui.theme
+package com.abdrabo60.productvisualizer.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
