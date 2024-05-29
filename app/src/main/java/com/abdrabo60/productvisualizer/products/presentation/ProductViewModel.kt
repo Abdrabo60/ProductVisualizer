@@ -5,10 +5,9 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.abdrabo60.productvisualizer.core.data.FirebaseObject
 import com.abdrabo60.productvisualizer.products.data.ProductRepositoryImpl
 import com.abdrabo60.productvisualizer.products.domain.AddNewProductUseCase
-import com.abdrabo60.productvisualizer.products.domain.DeleteProductsUseCase
+import com.abdrabo60.productvisualizer.products.domain.DeleteProductUseCase
 import com.abdrabo60.productvisualizer.products.domain.EditProductUseCase
 import com.abdrabo60.productvisualizer.products.domain.GetAllProductsUseCase
 import com.abdrabo60.productvisualizer.products.domain.Product
@@ -16,10 +15,11 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 
 class ProductViewModel() : ViewModel() {
-    private val productRepository = ProductRepositoryImpl(FirebaseObject.FIRE_BASE_FIRE_STORE)
+    private val productRepository = ProductRepositoryImpl()
+
     private val getAllProductsUseCase = GetAllProductsUseCase(productRepository)
     private val addNewProductUseCase = AddNewProductUseCase(productRepository)
-    private val deleteProductsUseCase = DeleteProductsUseCase(productRepository)
+    private val deleteProductUseCase = DeleteProductUseCase(productRepository)
     private val editProductUseCase = EditProductUseCase(productRepository)
     private var _state = mutableStateOf(
         ProductsState(
@@ -39,6 +39,7 @@ class ProductViewModel() : ViewModel() {
 
     init {
         getProducts()
+
     }
 
     private fun getProducts() {
@@ -83,13 +84,18 @@ class ProductViewModel() : ViewModel() {
     }
 
     fun onDeleteProduct() {
-        _state.value = _state.value.copy(isLoading = true)
+
         viewModelScope.launch(errorHandler) {
             val selected = _state.value.products.filter { it.selected }
             val domainModels = selected.map { Product(it.id, it.name) }
-            deleteProductsUseCase(domainModels)
-            val newList = _state.value.products.minus(selected.toSet())
-            _state.value = _state.value.copy(products = newList, isLoading = false)
+            domainModels.forEach { product ->
+                _state.value = _state.value.copy(isLoading = true)
+                deleteProductUseCase(product)
+                val newList = _state.value.products.minus(selected.filter { it.id == product.id })
+                _state.value = _state.value.copy(products = newList, isLoading = false)
+            }
+
+
         }
 
 

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
@@ -34,14 +35,19 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
+import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 
 enum class DialogState() {
@@ -66,7 +72,20 @@ fun ProductScreen(
     val deleteAlertState = remember {
         mutableStateOf(false)
     }
+    val listState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
     val selectedCount = state.products.count { it.selected }
+    var isAddingNewItem by remember {
+        mutableStateOf(false)
+    }
+    LaunchedEffect(state.products.size) {
+        if (state.products.isNotEmpty() && isAddingNewItem) {
+            coroutineScope.launch {
+                listState.animateScrollToItem(state.products.size - 1)
+                isAddingNewItem=false
+            }
+        }
+    }
     Scaffold(topBar = {
         TopAppBar(title = { Text(text = "Products") }, navigationIcon = {
             IconButton(onClick = { onBackButton() }) {
@@ -81,13 +100,18 @@ fun ProductScreen(
                             contentDescription = "clear selection"
                         )
                     }
-                    IconButton(onClick = { deleteAlertState.value = true }) {
+                    IconButton(onClick = {
+                        if (state.isLoading) return@IconButton;deleteAlertState.value = true
+                    }) {
                         Icon(
                             imageVector = Icons.Filled.Delete, contentDescription = "delete"
                         )
                     }
                     if (selectedCount == 1) {
-                        IconButton(onClick = { editorDialogState.value = DialogState.Edit }) {
+                        IconButton(onClick = {
+                            if (state.isLoading) return@IconButton;editorDialogState.value =
+                            DialogState.Edit
+                        }) {
                             Icon(
                                 imageVector = Icons.Filled.Edit, contentDescription = "edit"
                             )
@@ -101,7 +125,10 @@ fun ProductScreen(
 
     }, floatingActionButton = {
         FloatingActionButton(
-            onClick = { onClearAllSelection();editorDialogState.value = DialogState.Add },
+            onClick = {
+                if (state.isLoading) return@FloatingActionButton;onClearAllSelection();editorDialogState.value =
+                DialogState.Add
+            },
             Modifier
                 .wrapContentSize()
                 .padding(16.dp)
@@ -118,7 +145,7 @@ fun ProductScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            LazyColumn(Modifier.fillMaxSize()) {
+            LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
                 itemsIndexed(state.products, key = { _, item: UIProduct ->
                     item.hashCode()
                 }) { index, item ->
@@ -132,6 +159,7 @@ fun ProductScreen(
     }
     when (editorDialogState.value) {
         DialogState.Edit -> {
+
             val item = state.products.first { it.selected }
             ProductDialog(item.copy(id = item.id, name = item.name),
                 onDismiss = { editorDialogState.value = DialogState.Hidden },
@@ -144,6 +172,7 @@ fun ProductScreen(
         DialogState.Add -> {
             ProductDialog(onDismiss = { editorDialogState.value = DialogState.Hidden },
                 onConfirm = {
+                    isAddingNewItem=true
                     onAddNewProduct(it)
                     editorDialogState.value = DialogState.Hidden
                 })
@@ -170,64 +199,6 @@ fun ProductScreen(
 
             )
     }
-}
-
-@Composable
-fun ProductItem(index: Int, product: UIProduct, onClick: (index: Int) -> Unit) {
-    val icon = if (product.selected) Icons.Filled.CheckCircle else Icons.Outlined.CheckCircle
-    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-        Card(
-            elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
-            modifier = Modifier
-                .fillMaxWidth(.75f)
-                .padding(8.dp)
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(text = product.name, fontSize = 24.sp, modifier = Modifier.weight(.8f))
-                Spacer(modifier = Modifier.weight(.1f))
-                IconButton(onClick = { onClick(index) }) {
-                    Icon(
-                        imageVector = icon,
-                        contentDescription = "checked",
-                        Modifier.weight(.1f)
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun ProductDialog(
-    product: UIProduct? = null, onDismiss: () -> Unit, onConfirm: (product: UIProduct) -> Unit
-) {
-    val p = remember {
-        mutableStateOf(product ?: UIProduct("", ""))
-    }
-    AlertDialog(properties = DialogProperties(dismissOnClickOutside = false),
-        title = { Text(text = "Product Name") },
-        onDismissRequest = { onDismiss() },
-        confirmButton = {
-            Button(onClick = { onConfirm(p.value) }) {
-                Text(text = "Ok")
-            }
-        },
-        dismissButton = {
-            Button(onClick = { onDismiss() }) {
-                Text(text = "Cancel")
-            }
-        },
-        text = {
-            TextField(singleLine = true,
-                value = p.value.name,
-                onValueChange = { p.value = p.value.copy(name = it) })
-
-        })
 }
 
 
