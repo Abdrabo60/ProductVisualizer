@@ -8,9 +8,9 @@ import com.abdrabo60.productvisualizer.products.data.ProductContract
 
 @Entity(tableName = ProductContract.TABLE_NAME)
 data class LocalProduct(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ProductContract.ID)
-    val id: String,
+    val id: Int?,
     @ColumnInfo(name = ProductContract.NAME)
     val name: String
 )

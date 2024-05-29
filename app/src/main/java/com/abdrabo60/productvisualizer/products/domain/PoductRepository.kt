@@ -8,7 +8,7 @@ interface ProductRepository {
 
     suspend fun insertProduct(product: Product): Product
 
-    suspend fun deleteProduct(id:String)
+    suspend fun deleteProduct(product:Product)
 
     suspend fun updateProduct(product: Product)
 

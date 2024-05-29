@@ -1,4 +1,4 @@
-package com.abdrabo60.productvisualizer.core.data
+package com.abdrabo60.productvisualizer.products.data.sync
 
 object SyncContract {
 

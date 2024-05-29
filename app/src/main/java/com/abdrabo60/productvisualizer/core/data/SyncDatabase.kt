@@ -7,11 +7,11 @@ import androidx.room.RoomDatabase
 import com.abdrabo60.productvisualizer.products.data.local.LocalProduct
 import com.abdrabo60.productvisualizer.products.data.local.ProductDao
 
-@Database(entities = [LocalProduct::class], version = 1, exportSchema = false)
-abstract class AppDatabase : RoomDatabase() {
+@Database(entities = [LocalProduct::class], version = 1)
+abstract class SyncDatabase : RoomDatabase() {
     abstract fun productDao(): ProductDao
 }
-object LocalDatabaseProvider {
+object SyncDatabaseProvider {
     private var db: AppDatabase? = null
 
     fun provideDatabase(context: Context): AppDatabase {

@@ -9,23 +9,25 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 
-interface ProductApiService:ProductDataSource<ProductDocument> {
+
+
+
+interface ProductApiService{
 
     @GET(ProductContract.TABLE_NAME)
-    override suspend fun getProducts(): List<ProductDocument>
+     suspend fun getProducts(): ProductCollection
 
     @GET(ProductContract.TABLE_NAME+"/{document_id}")
-    override suspend fun getProduct(@Path("document_id")id: String): ProductDocument
-
+     suspend fun getProduct(@Path("document_id")id: String): ProductDocument?
 
 
     @POST(ProductContract.TABLE_NAME)
-    override suspend fun insertProduct(@Body product: ProductDocument):ProductDocument
+     suspend fun insertProduct(@Body product: ProductDocument):ProductDocument
 
     @DELETE(ProductContract.TABLE_NAME+"/{DocumentId}")
-    override suspend fun deleteProduct(@Path("DocumentId") id:String)
+     suspend fun deleteProduct(@Path("DocumentId") id:String)
 
     @PATCH(ProductContract.TABLE_NAME+"/{DocumentId}")
-    override suspend fun updateProduct(@Path("DocumentId")id: String, @Body product: ProductDocument)
+     suspend fun updateProduct(@Path("DocumentId")id: String, @Body product: ProductDocument)
 
 }
